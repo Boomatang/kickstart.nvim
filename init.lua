@@ -99,7 +99,7 @@ vim.g.maplocalleader = ' '
 vim.opt.number = true
 -- You can also add relative line numbers, for help with jumping.
 --  Experiment for yourself to see if you like it!
--- vim.opt.relativenumber = true
+vim.opt.relativenumber = true
 
 -- Enable mouse mode, can be useful for resizing splits for example!
 vim.opt.mouse = 'a'
@@ -148,8 +148,14 @@ vim.opt.cursorline = true
 -- Minimal number of screen lines to keep above and below the cursor.
 vim.opt.scrolloff = 10
 
+-- Set colour colunm
+vim.opt.colorcolumn = '120'
+
 -- [[ Basic Keymaps ]]
 --  See `:help vim.keymap.set()`
+
+-- open Explore window
+vim.keymap.set('n', '<leader>pv', vim.cmd.Ex)
 
 -- Set highlight on search, but clear on pressing <Esc> in normal mode
 vim.opt.hlsearch = true
@@ -544,6 +550,23 @@ require('lazy').setup {
         -- tsserver = {},
         --
 
+        pylsp = {
+          settings = {
+            pylsp = {
+              plugins = {
+                pycodestyle = {
+                  enabled = true,
+                  maxLineLength = 120,
+                },
+              },
+            },
+          },
+        },
+
+        texlab = {},
+
+        gopls = {},
+
         lua_ls = {
           -- cmd = {...},
           -- filetypes { ...},
@@ -585,6 +608,11 @@ require('lazy').setup {
       local ensure_installed = vim.tbl_keys(servers or {})
       vim.list_extend(ensure_installed, {
         'stylua', -- Used to format lua code
+        'pylsp', -- python tools
+        'isort',
+        'black',
+        'texlab', -- latex tools
+        'gopls', -- golang tools
       })
       require('mason-tool-installer').setup { ensure_installed = ensure_installed }
 
@@ -614,7 +642,7 @@ require('lazy').setup {
       formatters_by_ft = {
         lua = { 'stylua' },
         -- Conform can also run multiple formatters sequentially
-        -- python = { "isort", "black" },
+        python = { 'isort', 'black' },
         --
         -- You can use a sub-list to tell conform to run *until* a formatter
         -- is found.
@@ -797,6 +825,12 @@ require('lazy').setup {
     end,
   },
 
+  {
+    'tpope/vim-fugitive',
+    config = function()
+      vim.keymap.set('n', '<leader>gs', vim.cmd.Git)
+    end,
+  },
   -- The following two comments only work if you have downloaded the kickstart repo, not just copy pasted the
   -- init.lua. If you want these files, they are in the repository, so you can just download them and
   -- put them in the right spots if you want.
