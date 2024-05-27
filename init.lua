@@ -151,6 +151,9 @@ vim.opt.scrolloff = 10
 -- Set colour colunm
 vim.opt.colorcolumn = '120'
 
+-- Set spellfile location
+vim.opt.spellfile = vim.fn.stdpath 'config' .. '/spell/en.utf-8.add'
+
 -- [[ Basic Keymaps ]]
 --  See `:help vim.keymap.set()`
 
@@ -527,6 +530,12 @@ require('lazy').setup {
       local capabilities = vim.lsp.protocol.make_client_capabilities()
       capabilities = vim.tbl_deep_extend('force', capabilities, require('cmp_nvim_lsp').default_capabilities())
 
+      -- Adding the Custon Dictionary to LTex Language Server
+      local words = {}
+      for word in io.open(vim.fn.stdpath 'config' .. '/spell/en.utf-8.add', 'r'):lines() do
+        table.insert(words, word)
+      end
+
       -- Enable the following language servers
       --  Feel free to add/remove any LSPs that you want here. They will automatically be installed.
       --
@@ -566,6 +575,12 @@ require('lazy').setup {
         texlab = {},
 
         gopls = {},
+
+        ltex = {
+          dictionary = {
+            ['en-US'] = words,
+          },
+        },
 
         lua_ls = {
           -- cmd = {...},
@@ -613,6 +628,7 @@ require('lazy').setup {
         'black',
         'texlab', -- latex tools
         'gopls', -- golang tools
+        'ltex',
       })
       require('mason-tool-installer').setup { ensure_installed = ensure_installed }
 
