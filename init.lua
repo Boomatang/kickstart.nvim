@@ -566,6 +566,7 @@ require('lazy').setup {
                 pycodestyle = {
                   enabled = true,
                   maxLineLength = 120,
+                  ignore = 'E251',
                 },
               },
             },
@@ -574,7 +575,13 @@ require('lazy').setup {
 
         texlab = {},
 
-        gopls = {},
+        gopls = {
+          settings = {
+            gopls = {
+              buildFlags = { '-tags=unit,integration' },
+            },
+          },
+        },
 
         ltex = {
           dictionary = {
