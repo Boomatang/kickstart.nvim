@@ -546,6 +546,7 @@ require('lazy').setup {
   require 'plugins.nvim-cmp',
 
   -- plugins under review
+  require 'plugins.obsidian',
   require 'plugins.twilight',
   require 'plugins.zenmode',
 
