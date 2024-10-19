@@ -18,8 +18,15 @@ return {
     'williamboman/mason.nvim',
     'jay-babu/mason-nvim-dap.nvim',
 
+    -- required by nvim-dap
+    'nvim-neotest/nvim-nio',
+
+    -- more config stuff
+    'theHamsta/nvim-dap-virtual-text',
+
     -- Add your own debuggers here
     'leoluz/nvim-dap-go',
+    'mfussenegger/nvim-dap-python',
   },
   config = function()
     local dap = require 'dap'
@@ -81,7 +88,45 @@ return {
     dap.listeners.before.event_terminated['dapui_config'] = dapui.close
     dap.listeners.before.event_exited['dapui_config'] = dapui.close
 
+    -- My other stuff
+    require('nvim-dap-virtual-text').setup()
+
     -- Install golang specific config
-    require('dap-go').setup()
+    require('dap-go').setup {
+      dap_configurations = {
+        {
+          type = 'go',
+          name = 'kuadrant-operator',
+          request = 'launch',
+          program = '${file}',
+          env = { ['OPERATOR_NAMESPACE'] = 'kuadrant-system' },
+        },
+      },
+    }
+
+    require('dap-python').setup()
+    dap.configurations.python = {
+      {
+        type = 'python',
+        request = 'launch',
+        name = 'Launch file',
+        program = '${file}',
+        pythonPath = function()
+          local handle = assert(io.popen('poetry env info -e', 'r'))
+          local result = handle:read '*all'
+          if handle then
+            handle:close()
+          end
+          print(result)
+
+          result = result:match '^%s*(.-)%s*$'
+          if result ~= '' then
+            return result
+          else
+            return '/usr/bin/python'
+          end
+        end,
+      },
+    }
   end,
 }
