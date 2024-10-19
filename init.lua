@@ -240,9 +240,6 @@ require('lazy').setup {
   --  This is equivalent to:
   --    require('Comment').setup({})
 
-  -- "gc" to comment visual regions/lines
-  { 'numToStr/Comment.nvim', opts = {} },
-
   -- Here is a more advanced example where we pass configuration
   -- options to `gitsigns.nvim`. This is equivalent to the following lua:
   --    require('gitsigns').setup({ ... })
@@ -866,6 +863,8 @@ require('lazy').setup {
   require 'kickstart.plugins.debug',
   -- require 'kickstart.plugins.indent_line',
 
+  -- plugins that are used
+  require 'plugins.comment',
   require 'plugins.twilight',
   require 'plugins.zenmode',
 
