@@ -368,12 +368,6 @@ require('lazy').setup {
     end,
   },
 
-  {
-    'tpope/vim-fugitive',
-    config = function()
-      vim.keymap.set('n', '<leader>gs', vim.cmd.Git)
-    end,
-  },
   -- The following two comments only work if you have downloaded the kickstart repo, not just copy pasted the
   -- init.lua. If you want these files, they are in the repository, so you can just download them and
   -- put them in the right spots if you want.
@@ -398,6 +392,9 @@ require('lazy').setup {
   require 'plugins.obsidian',
   require 'plugins.twilight',
   require 'plugins.zenmode',
+
+  -- Plugins I am not sure I want to use.
+  -- require 'plugins.vim-fugitive',
 
   -- plugins that currently does not work
   -- require 'plugins.harpoon',
