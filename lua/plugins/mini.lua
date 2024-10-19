@@ -31,8 +31,5 @@ return {
     statusline.section_location = function()
       return ''
     end
-
-    -- ... and there is more!
-    --  Check out: https://github.com/echasnovski/mini.nvim
   end,
 }
