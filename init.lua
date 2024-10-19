@@ -866,6 +866,7 @@ require('lazy').setup {
   require 'kickstart.plugins.debug',
   -- require 'kickstart.plugins.indent_line',
 
+  require 'plugins.twilight',
   require 'plugins.zenmode',
 
   -- NOTE: The import below can automatically add your own plugins, configuration, etc from `lua/custom/plugins/*.lua`
