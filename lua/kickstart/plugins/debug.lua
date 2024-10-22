@@ -112,13 +112,15 @@ return {
         name = 'Launch file',
         program = '${file}',
         pythonPath = function()
+          local virtual_env = os.getenv 'VIRTUAL_ENV'
+          if virtual_env ~= nil then
+            return virtual_env .. '/bin/python'
+          end
           local handle = assert(io.popen('poetry env info -e', 'r'))
           local result = handle:read '*all'
           if handle then
             handle:close()
           end
-          print(result)
-
           result = result:match '^%s*(.-)%s*$'
           if result ~= '' then
             return result
