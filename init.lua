@@ -172,6 +172,7 @@ require('lazy').setup {
   require 'plugins.comment',
   require 'plugins.conform',
   require 'plugins.gitsigns',
+  require 'plugins.harpoon',
   require 'plugins.lspconfig',
   require 'plugins.mini',
   require 'plugins.nvim-cmp',
@@ -188,9 +189,6 @@ require('lazy').setup {
 
   -- Plugins I am not sure I want to use.
   -- require 'plugins.vim-fugitive',
-
-  -- plugins that currently does not work
-  -- require 'plugins.harpoon',
 
   -- NOTE: The import below can automatically add your own plugins, configuration, etc from `lua/custom/plugins/*.lua`
   --    This is the easiest way to modularize your config.
