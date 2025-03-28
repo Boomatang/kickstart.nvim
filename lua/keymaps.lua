@@ -2,7 +2,9 @@
 --  See `:help vim.keymap.set()`
 
 -- open Explore window
-vim.keymap.set('n', '<leader>pv', vim.cmd.Ex)
+-- vim.keymap.set('n', '<leader>pv', vim.cmd.Ex)
+vim.keymap.set('n', '<leader>pv', vim.cmd.Oil)
+vim.keymap.set('n', '-', vim.cmd.Oil)
 
 -- Set highlight on search, but clear on pressing <Esc> in normal mode
 vim.opt.hlsearch = true

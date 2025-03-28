@@ -186,6 +186,7 @@ require('lazy').setup {
   require 'plugins.obsidian',
   require 'plugins.twilight',
   require 'plugins.zenmode',
+  require 'plugins.oil',
 
   -- Plugins I am not sure I want to use.
   -- require 'plugins.vim-fugitive',
