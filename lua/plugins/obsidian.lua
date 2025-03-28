@@ -1,3 +1,4 @@
+-- https://github.com/epwalsh/obsidian.nvim
 return {
   'epwalsh/obsidian.nvim',
   version = '*', -- recommended, use latest release instead of latest commit
@@ -17,9 +18,16 @@ return {
 
   opts = {
     workspaces = {
+      -- {
+      --   name = 'personal',
+      --   path = '~/obsidian',
+      -- },
       {
-        name = 'personal',
-        path = '~/obsidian',
+        name = 'para',
+        path = '~/obsidian/PARA',
+        -- overrides = {
+        --   notes_subdir = '0. Inbox',
+        --   new_notes_location = 'notes_subdir',
       },
     },
   },
