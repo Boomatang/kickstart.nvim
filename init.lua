@@ -184,8 +184,6 @@ require('lazy').setup {
 
   -- plugins under review
   require 'plugins.obsidian',
-  require 'plugins.twilight',
-  require 'plugins.zenmode',
   require 'plugins.oil',
 
   -- Plugins I am not sure I want to use.
