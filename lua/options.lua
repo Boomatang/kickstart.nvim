@@ -3,6 +3,12 @@
 -- NOTE: You can change these options as you wish!
 --  For more options, you can see `:help option-list`
 
+vim.opt.expandtab = true
+vim.opt.shiftwidth = 4
+vim.opt.smarttab = true
+vim.opt.smartindent = true
+vim.opt.autoindent = true
+
 -- Make line numbers default
 vim.opt.number = true
 -- You can also add relative line numbers, for help with jumping.
