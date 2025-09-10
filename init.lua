@@ -185,6 +185,8 @@ require('lazy').setup {
   -- plugins under review
   require 'plugins.obsidian',
   require 'plugins.oil',
+  require 'plugins.showkeys',
+  require 'plugins.git-blame',
 
   -- Plugins I am not sure I want to use.
   -- require 'plugins.vim-fugitive',

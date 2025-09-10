@@ -131,7 +131,7 @@ return { -- LSP Configuration & Plugins
       gopls = {
         settings = {
           gopls = {
-            buildFlags = { '-tags=unit,integration' },
+            buildFlags = { '-tags=unit integration' },
           },
         },
       },
@@ -189,10 +189,14 @@ return { -- LSP Configuration & Plugins
       'texlab', -- latex tools
       'gopls', -- golang tools
       'ltex',
+      'mypy',
     })
     require('mason-tool-installer').setup { ensure_installed = ensure_installed }
 
     require('mason-lspconfig').setup {
+      ensure_installed = {},
+      automatic_installation = false,
+      -- enable = true,
       handlers = {
         function(server_name)
           local server = servers[server_name] or {}
@@ -201,6 +205,28 @@ return { -- LSP Configuration & Plugins
           -- certain features of an LSP (for example, turning off formatting for tsserver)
           server.capabilities = vim.tbl_deep_extend('force', {}, capabilities, server.capabilities or {})
           require('lspconfig')[server_name].setup(server)
+        end,
+        gopls = function()
+          local lspconfig = require 'lspconfig'
+          lspconfig.gopls.setup {
+            -- You can add any general lspconfig options here
+            on_attach = function(client, bufnr)
+              -- Example: You might want to set up keymaps or autocommands here
+              -- See :help lsp-attach for more details
+            end,
+            settings = {
+              gopls = {
+                buildFlags = { '-tags=integration' }, -- Add your custom build tags here
+                -- You can add other gopls-specific settings here, e.g.,
+                -- completeUnimported = true,
+                -- staticcheck = true,
+              },
+            },
+            -- If your project requires specific root_dir patterns
+            root_dir = lspconfig.util.root_pattern('go.mod', '.git'),
+            -- Other gopls specific options if needed
+            -- cmd = { "gopls" } -- Mason handles the cmd, but you can override if necessary
+          }
         end,
       },
     }
