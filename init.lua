@@ -93,6 +93,7 @@ vim.g.maplocalleader = ' '
 
 require 'options'
 require 'keymaps'
+require 'filetype'
 
 -- [[ Basic Autocommands ]]
 --  See `:help lua-guide-autocommands`
@@ -187,6 +188,7 @@ require('lazy').setup {
   require 'plugins.oil',
   require 'plugins.showkeys',
   require 'plugins.git-blame',
+  require 'plugins.marker-groups',
 
   -- Plugins I am not sure I want to use.
   -- require 'plugins.vim-fugitive',

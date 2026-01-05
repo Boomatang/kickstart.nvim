@@ -129,11 +129,7 @@ return { -- LSP Configuration & Plugins
       texlab = {},
 
       gopls = {
-        settings = {
-          gopls = {
-            buildFlags = { '-tags=unit integration' },
-          },
-        },
+        buildFlags = { '-tags=unit integration' },
       },
 
       ltex = {
@@ -216,10 +212,10 @@ return { -- LSP Configuration & Plugins
             end,
             settings = {
               gopls = {
-                buildFlags = { '-tags=integration' }, -- Add your custom build tags here
+                buildFlags = { '-tags=unit integration' }, -- Add your custom build tags here
                 -- You can add other gopls-specific settings here, e.g.,
                 -- completeUnimported = true,
-                -- staticcheck = true,
+                staticcheck = true,
               },
             },
             -- If your project requires specific root_dir patterns
