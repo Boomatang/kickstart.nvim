@@ -2,7 +2,6 @@ return { -- LSP Configuration & Plugins
   'neovim/nvim-lspconfig',
   dependencies = {
     'williamboman/mason.nvim',
-    'williamboman/mason-lspconfig.nvim',
     'WhoIsSethDaniel/mason-tool-installer.nvim',
 
     { 'j-hui/fidget.nvim', opts = {} },
@@ -83,12 +82,6 @@ return { -- LSP Configuration & Plugins
     local capabilities = vim.lsp.protocol.make_client_capabilities()
     capabilities = vim.tbl_deep_extend('force', capabilities, require('cmp_nvim_lsp').default_capabilities())
 
-    -- Adding the Custon Dictionary to LTex Language Server
-    local words = {}
-    for word in io.open(vim.fn.stdpath 'config' .. '/spell/en.utf-8.add', 'r'):lines() do
-      table.insert(words, word)
-    end
-
     -- Enable the following language servers
     --  Feel free to add/remove any LSPs that you want here. They will automatically be installed.
     --
@@ -129,12 +122,11 @@ return { -- LSP Configuration & Plugins
       texlab = {},
 
       gopls = {
-        buildFlags = { '-tags=unit integration' },
-      },
-
-      ltex = {
-        dictionary = {
-          ['en-US'] = words,
+        settings = {
+          gopls = {
+            buildFlags = { '-tags=integration unit' },
+            staticcheck = true,
+          },
         },
       },
 
@@ -164,6 +156,8 @@ return { -- LSP Configuration & Plugins
           },
         },
       },
+
+      zls = {},
     }
 
     -- Ensure the servers and tools above are installed
@@ -176,55 +170,31 @@ return { -- LSP Configuration & Plugins
 
     -- You can add other tools here that you want Mason to install
     -- for you, so that they are available from within Neovim.
-    local ensure_installed = vim.tbl_keys(servers or {})
-    vim.list_extend(ensure_installed, {
+    -- Note: Mason package names differ from lspconfig server names
+    local ensure_installed = {
       'stylua', -- Used to format lua code
-      'pylsp', -- python tools
+      'python-lsp-server', -- pylsp
       'isort',
       'black',
       'texlab', -- latex tools
       'gopls', -- golang tools
-      'ltex',
+      'lua-language-server', -- lua_ls
+      'ltex-ls', -- ltex
       'mypy',
-    })
+      'zls', -- zig
+    }
     require('mason-tool-installer').setup { ensure_installed = ensure_installed }
 
-    require('mason-lspconfig').setup {
-      ensure_installed = {},
-      automatic_installation = false,
-      -- enable = true,
-      handlers = {
-        function(server_name)
-          local server = servers[server_name] or {}
-          -- This handles overriding only values explicitly passed
-          -- by the server configuration above. Useful when disabling
-          -- certain features of an LSP (for example, turning off formatting for tsserver)
-          server.capabilities = vim.tbl_deep_extend('force', {}, capabilities, server.capabilities or {})
-          require('lspconfig')[server_name].setup(server)
-        end,
-        gopls = function()
-          local lspconfig = require 'lspconfig'
-          lspconfig.gopls.setup {
-            -- You can add any general lspconfig options here
-            on_attach = function(client, bufnr)
-              -- Example: You might want to set up keymaps or autocommands here
-              -- See :help lsp-attach for more details
-            end,
-            settings = {
-              gopls = {
-                buildFlags = { '-tags=unit integration' }, -- Add your custom build tags here
-                -- You can add other gopls-specific settings here, e.g.,
-                -- completeUnimported = true,
-                staticcheck = true,
-              },
-            },
-            -- If your project requires specific root_dir patterns
-            root_dir = lspconfig.util.root_pattern('go.mod', '.git'),
-            -- Other gopls specific options if needed
-            -- cmd = { "gopls" } -- Mason handles the cmd, but you can override if necessary
-          }
-        end,
-      },
-    }
+    -- Load lspconfig to register server definitions with vim.lsp.config
+    require('lspconfig')
+
+    -- Set up each LSP server with its configuration using Neovim 0.11+ native API
+    for server_name, server_config in pairs(servers) do
+      server_config.capabilities = vim.tbl_deep_extend('force', {}, capabilities, server_config.capabilities or {})
+      vim.lsp.config(server_name, server_config)
+    end
+
+    -- Enable all configured servers
+    vim.lsp.enable(vim.tbl_keys(servers))
   end,
 }
