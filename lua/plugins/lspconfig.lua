@@ -82,6 +82,12 @@ return { -- LSP Configuration & Plugins
     local capabilities = vim.lsp.protocol.make_client_capabilities()
     capabilities = vim.tbl_deep_extend('force', capabilities, require('cmp_nvim_lsp').default_capabilities())
 
+    -- Adding the Custom Dictionary to LTex Language Server
+    local words = {}
+    for word in io.open(vim.fn.stdpath 'config' .. '/spell/en.utf-8.add', 'r'):lines() do
+      table.insert(words, word)
+    end
+
     -- Enable the following language servers
     --  Feel free to add/remove any LSPs that you want here. They will automatically be installed.
     --
@@ -120,6 +126,8 @@ return { -- LSP Configuration & Plugins
       },
 
       texlab = {},
+
+      ltex = {},
 
       gopls = {
         settings = {
@@ -186,7 +194,7 @@ return { -- LSP Configuration & Plugins
     require('mason-tool-installer').setup { ensure_installed = ensure_installed }
 
     -- Load lspconfig to register server definitions with vim.lsp.config
-    require('lspconfig')
+    require 'lspconfig'
 
     -- Set up each LSP server with its configuration using Neovim 0.11+ native API
     for server_name, server_config in pairs(servers) do
