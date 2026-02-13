@@ -189,6 +189,7 @@ require('lazy').setup {
   require 'plugins.showkeys',
   require 'plugins.git-blame',
   require 'plugins.marker-groups',
+  require 'plugins.nvim-converage',
 
   -- Plugins I am not sure I want to use.
   -- require 'plugins.vim-fugitive',
